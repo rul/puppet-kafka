@@ -7,7 +7,9 @@
 # This private class is meant to be called from `kafka::broker`.
 # It manages the kafka service
 #
-class kafka::broker::service {
+class kafka::broker::service (
+  $kafka_heap_opts = $kafka::broker::kafka_heap_opts
+) {
 
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
