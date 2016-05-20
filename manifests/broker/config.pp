@@ -26,7 +26,7 @@ class kafka::broker::config(
   file { '/opt/kafka/config/server.properties':
     owner   => 'kafka',
     group   => 'kafka',
-    mode    => '0644',
+    mode    => '0600',
     alias   => 'kafka-cfg',
     require => [ Exec['untar-kafka'], File['/opt/kafka'] ],
     content => template('kafka/server.properties.erb'),
