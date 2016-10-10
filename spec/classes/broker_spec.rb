@@ -31,9 +31,6 @@ describe 'kafka::broker' do
 
       it { should contain_file('/opt/kafka/config/server.properties').that_notifies('Service[kafka]') }
 
-
-      it { should contain_file('/var/log/kafka').with('ensure' => 'directory') }
-
       it { should contain_service('kafka') }
     end
 

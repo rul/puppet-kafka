@@ -108,12 +108,6 @@ class kafka (
     require => File['/opt/kafka']
   }
 
-  file { '/var/log/kafka':
-    ensure => directory,
-    owner  => 'kafka',
-    group  => 'kafka'
-  }
-
   exec { 'download-kafka-package':
     command => "wget -O ${package_dir}/${basefilename} ${package_url} 2> /dev/null",
     path    => ['/usr/bin', '/bin'],
