@@ -8,7 +8,8 @@
 # It manages the kafka service
 #
 class kafka::broker::service (
-  $kafka_heap_opts = $kafka::broker::kafka_heap_opts
+  $kafka_heap_opts = $kafka::broker::kafka_heap_opts,
+  $manage_service  = $kafka::broker::manage_service
 ) {
 
   if $caller_module_name != $module_name {
@@ -21,12 +22,14 @@ class kafka::broker::service (
     content => template('kafka/init.erb')
   }
 
-  service { 'kafka':
-    ensure     => running,
-    enable     => true,
-    hasstatus  => true,
-    hasrestart => true,
-    require    => File['/etc/init.d/kafka']
+  if $manage_service == true {
+    service { 'kafka':
+      ensure     => running,
+      enable     => true,
+      hasstatus  => true,
+      hasrestart => true,
+      require    => File['/etc/init.d/kafka']
+    }
   }
 
 }

@@ -17,6 +17,7 @@ class kafka::params {
   $install_dir = "/opt/kafka-${scala_version}-${version}"
   $kafka_heap_opts = ""
 
+  $manage_service = true
   $service_restart = true
 
   #http://kafka.apache.org/documentation.html#brokerconfigs
