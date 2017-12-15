@@ -17,6 +17,9 @@ class kafka::params {
   $install_dir = "/opt/kafka-${scala_version}-${version}"
   $kafka_heap_opts = ""
 
+  $use_default_home = true
+  $user_home        = "/var/lib/kafka"
+
   $manage_service = true
   $service_restart = true
 

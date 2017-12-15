@@ -40,7 +40,10 @@ class kafka (
   $install_dir = '',
   $mirror_url = $kafka::params::mirror_url,
   $install_java = $kafka::params::install_java,
-  $package_dir = $kafka::params::package_dir
+  $package_dir = $kafka::params::package_dir,
+  $use_default_home = $kafka::params::use_default_home,
+  $user_home = $kafka::params::user_home,
+
 ) inherits kafka::params {
 
   validate_re($::osfamily, 'RedHat|Debian\b', "${::operatingsystem} not supported")
@@ -77,10 +80,19 @@ class kafka (
     ensure => present
   }
 
-  user { 'kafka':
-    ensure  => present,
-    shell   => '/bin/bash',
-    require => Group['kafka']
+  if $use_default_home {
+    user { 'kafka':
+      ensure  => present,
+      shell   => '/bin/bash',
+      require => Group['kafka'],
+    }
+  } else {
+    user { 'kafka':
+      ensure  => present,
+      shell   => '/bin/bash',
+      require => Group['kafka'],
+      home    => $user_home,
+    }
   }
 
   file { $package_dir:
