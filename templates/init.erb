@@ -10,6 +10,8 @@ NAME=kafka
 PID_FILE=/var/run/$NAME.pid
 KAFKA_USER=kafka
 
+PGREP_PATTERN='Djava.security.auth.login.config=/etc/kafka/kafka'
+
 DAEMON="/opt/kafka/bin/kafka-server-start.sh"
 DAEMON_OPTS="/opt/kafka/config/server.properties"
 
@@ -35,7 +37,7 @@ start() {
   else
     /bin/su $KAFKA_USER -c "KAFKA_JMX_OPTS=\"$KAFKA_JMX_OPTS\" KAFKA_HEAP_OPTS=\"$KAFKA_HEAP_OPTS\" $DAEMON $DAEMON_OPTS >/dev/null 2>&1 &"
     sleep 2
-    PID=`ps ax | grep -E '[k]afka.Kafka' | awk '{print $1}'`
+    PID=`pgrep -f "$PGREP_PATTERN"`
     echo $PID > $PID_FILE;
     echo "$NAME started"
   fi
